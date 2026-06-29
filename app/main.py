@@ -760,26 +760,55 @@ class VideoCompressionApp:
             font=("Arial", 16)
         ).pack(pady=20)
 
-        self.compression_progress = ttk.Progressbar(
+        progress = ttk.Progressbar(
             frame,
             length=400,
             mode="indeterminate"
         )
 
-        self.compression_progress.pack(pady=20)
-        self.compression_progress.start()
+        progress.pack(pady=20)
+        progress.start()
 
-        self.root.after(
-            5000,
-            self.compression_finished
-        )
+        self.root.update()
+
+        params = {
+            "crf": int(self.crf_var.get()),
+            "preset": self.preset_var.get(),
+            "aq-mode": int(self.aq_var.get()),
+            "bf": int(self.bf_var.get())
+        }
+
+        try:
+            self.compressed_video_path = compress_video(
+                video_path=self.original_video_path,
+                codec="h264",
+                params=params
+            )
+
+        except Exception as e:
+            progress.stop()
+
+            messagebox.showerror(
+                "Ошибка",
+                str(e)
+            )
+
+            self.show_parameter_screen()
+            return
+
+        progress.stop()
+
+        self.compression_finished()
 
     # ==========================
     # ЭКРАН ЗАВЕРШЕНИЯ
     # ==========================
     def compression_finished(self):
 
-        similarity = 0.0
+        similarity = calculate_video_similarity(
+            self.original_video_path,
+            self.compressed_video_path
+        )
 
         self.clear_container()
 

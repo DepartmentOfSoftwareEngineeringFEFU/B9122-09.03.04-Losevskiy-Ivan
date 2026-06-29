@@ -1,4 +1,3 @@
-```bash
 #!/bin/bash
 
 set -e
@@ -50,4 +49,3 @@ echo
 echo "source .venv/bin/activate"
 echo "python3 main.py"
 echo "==========================================="
-```

@@ -12,6 +12,7 @@ sudo apt install -y \
     python3 \
     python3-venv \
     python3-pip \
+    python3-tk \
     git \
     ffmpeg
 
@@ -47,5 +48,5 @@ echo
 echo "Для запуска программы выполните:"
 echo
 echo "source .venv/bin/activate"
-echo "python3 main.py"
+echo "python3 app/main.py"
 echo "==========================================="
